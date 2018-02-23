@@ -1,0 +1,22 @@
+.jockey img {
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+
+.progress {
+    display: inline-block ;
+    width: 100%;
+    transition: width 100ms ease-in-out;
+  }
+
+  .jockey {
+    padding: 30px;
+    display: block;
+}
+
+.progress {
+    display: inline-block ;
+    width: 100%;
+    transition: width 100ms ease-in-out;
+  }
