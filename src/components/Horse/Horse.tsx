@@ -16,6 +16,7 @@ interface State {
 }
 
 export class Horse extends React.Component<Props, State> {
+  timer: NodeJS.Timer;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -24,17 +25,24 @@ export class Horse extends React.Component<Props, State> {
     };
     this.interval = this.interval.bind(this);
   }
+
+  // SET PROGRESS OF HORSE
+
   interval() {
     if (this.state.progress > 99) {
       this.setState({ progress: 100 });
       this.props.winner(this.props.login);
+      clearInterval(this.timer);
     } else {
       this.setState(prevState => ({ progress: prevState.progress + 0.4 }));
     }
     
   }
+
+// SPEED OF HORSE
+
   componentDidMount() {
-    setInterval(this.interval, this.state.speed);
+    this.timer = setInterval(this.interval, this.state.speed);
   }
   render() {
     return (

@@ -29,6 +29,7 @@ export class App extends React.Component<Props, State> {
     this.addNewHorse = this.addNewHorse.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleReset = this.handleReset.bind(this);
+    this.handleResetWith = this.handleResetWith.bind(this);
  }
   addNewHorse(newhorses: Jockey) {
     this.setState(prevState => ({ horses: prevState.horses.concat(newhorses)}));
@@ -47,6 +48,11 @@ export class App extends React.Component<Props, State> {
     this.setState({horses: []});
     this.setState({racers: []});
   }
+  
+  handleResetWith() {
+    this.setState({startRace: false});
+    this.setState({racers: []});
+  }
 
   render() {
     return (
@@ -60,12 +66,21 @@ export class App extends React.Component<Props, State> {
           <h1 className="App-title"> Welcome to React with Typescript </h1>
           <h2 className="App-sub-title"> Kurtosys Grads </h2>
         </header>
+
+        {/* FORM */}
+
           <MuiThemeProvider>
           <Form onSubmit={this.addNewHorse} addedplayer={this.state.racers} />
           </MuiThemeProvider>
+
+          {/* TRACK */}
+
           <MuiThemeProvider>
           <Track jockeys={this.state.horses} raceState={this.state.startRace}/>
           </MuiThemeProvider>
+
+        {/* BUTTONS */}
+          {/* Start */}
         <div className="buttons">
         <MuiThemeProvider>
           <RaisedButton 
@@ -74,6 +89,14 @@ export class App extends React.Component<Props, State> {
             label="Start"
             backgroundColor="green"
           />
+            {/* ResetWithSamePlayers */}
+          <RaisedButton 
+            className="go" 
+            onClick={this.handleResetWith} 
+            label="Reset with same Racers"
+            backgroundColor="Orange"
+          />
+           {/* Reset */}
           <RaisedButton 
             className="reset" 
             onClick={this.handleReset} 

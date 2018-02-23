@@ -62,6 +62,8 @@ return items;
   render() {
     return (
       <div className="form">
+
+      {/* SELECT A JOCKEY */}
           <div className="indiv">
           <br/>
           <select
@@ -75,6 +77,8 @@ return items;
           <RaisedButton type="submit" onClick={this.handleSubmit} label="Add Player" />
           </div>
         <br/>
+
+        {/* RANDOM SELECTED JOCKEY */}
           <div className="random">
           <input 
             type="text" 

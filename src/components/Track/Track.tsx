@@ -11,28 +11,26 @@ interface Props {
 }
 
 interface State {
-  winnerArray: Array<string>;
+  winnerArray: string;
 }
 
 export class Track extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      winnerArray: []
+      winnerArray: ''
     };
     this.mycallBack = this.mycallBack.bind(this);
     this.emptyArray = this.emptyArray.bind(this);
   }
 
   mycallBack(datafromChild: string) {
-    if (this.props.raceState) {
-    this.setState(prevState => ({ winnerArray: prevState.winnerArray.concat(datafromChild)}));
-    } else {
-      this.emptyArray();
+    if (this.props.raceState && this.state.winnerArray === '') {
+    this.setState(prevState => ({ winnerArray: datafromChild}));
     }
   }
   emptyArray() {
-    this.setState({winnerArray: []});
+    this.setState({winnerArray: ''});
   }
   render() {
     if (! this.props.raceState) {
@@ -41,6 +39,7 @@ export class Track extends React.Component<Props, State> {
       }
       return (
         <div>
+          {/* GAME NOT STARTED */}
               <div />
               <div> <h3>Chosen Racers </h3></div>
               {this.props.jockeys.map((jockey: Jockey) => (
@@ -53,9 +52,10 @@ export class Track extends React.Component<Props, State> {
       );
     } else {
       return (
+        // GAME STARTED
           <div>
           <h1 className="title">Winner:</h1>
-          <h1>{this.state.winnerArray[0]}</h1> 
+          <h1>{this.state.winnerArray}</h1> 
             <div className="jockeys">
           {this.props.jockeys.map((jockey: Jockey) => (
             <MuiThemeProvider>
