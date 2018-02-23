@@ -29,12 +29,16 @@ export class Horse extends React.Component<Props, State> {
   // SET PROGRESS OF HORSE
 
   interval() {
-    if (this.state.progress > 99) {
+    if (this.state.progress === 100) {
       this.setState({ progress: 100 });
       this.props.winner(this.props.login);
       clearInterval(this.timer);
     } else {
-      this.setState(prevState => ({ progress: prevState.progress + 0.4 }));
+      this.setState(prevState => ({ progress: prevState.progress + 0.5 }));
+      clearInterval(this.timer);
+      this.componentDidMount();
+      this.setState({speed: Math.floor(Math.random() * 100) + 1});
+      
     }
     
   }
@@ -42,6 +46,8 @@ export class Horse extends React.Component<Props, State> {
 // SPEED OF HORSE
 
   componentDidMount() {
+    this.setState({speed: Math.floor(Math.random() * 150) - 20});
+    clearInterval(this.timer);
     this.timer = setInterval(this.interval, this.state.speed);
   }
   render() {

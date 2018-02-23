@@ -53,11 +53,11 @@ export class Form extends React.Component<Props, State> {
     this.setState({ randomNum: ''}); 
 }
 createSelectedItems() {
-let items = [];
-for (let i = 0; i < data.length;  i++) {
-    items.push(<option key={i} value={data[i].login}>{data[i].login}</option>);
-}
-return items;
+  let items = [];
+  for (let i = 0; i < data.length;  i++) {
+      items.push(<option key={i} value={data[i].login}>{data[i].login}</option>);
+  }
+  return items;
 }
   render() {
     return (
