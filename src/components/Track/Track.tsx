@@ -2,6 +2,8 @@ import * as React from 'react';
 import { List } from '../List';
 import { Jockey } from '../Utils/interface';
 import { Horse } from '../Horse';
+import './Track.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 interface Props {
   jockeys: Array<Jockey>;
@@ -9,22 +11,34 @@ interface Props {
 }
 
 interface State {
-    place: number;
+  winnerArray: Array<string>;
 }
 
 export class Track extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-        place: 1
+      winnerArray: []
     };
+    this.mycallBack = this.mycallBack.bind(this);
+    this.emptyArray = this.emptyArray.bind(this);
   }
 
-place( datafromChild: number ) {
-    this.setState({place: datafromChild + 1});
-}
+  mycallBack(datafromChild: string) {
+    if (this.props.raceState) {
+    this.setState(prevState => ({ winnerArray: prevState.winnerArray.concat(datafromChild)}));
+    } else {
+      this.emptyArray();
+    }
+  }
+  emptyArray() {
+    this.setState({winnerArray: []});
+  }
   render() {
     if (! this.props.raceState) {
+      if (this.state.winnerArray.length > 0) {
+      {this.emptyArray(); }
+      }
       return (
         <div>
               <div />
@@ -39,15 +53,20 @@ place( datafromChild: number ) {
       );
     } else {
       return (
+          <div>
+          <h1 className="title">Winner:</h1>
+          <h1>{this.state.winnerArray[0]}</h1> 
             <div className="jockeys">
           {this.props.jockeys.map((jockey: Jockey) => (
+            <MuiThemeProvider>
             <Horse 
                 avatar_url={jockey.avatar_url} 
                 login={jockey.login}
-                place={this.state.place}
-                changePlace={this.place}
+                winner={this.mycallBack}
             />
+            </MuiThemeProvider>
           ))}
+        </div>
         </div>
             
           );

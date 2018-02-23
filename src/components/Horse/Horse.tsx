@@ -2,18 +2,17 @@
 import * as React from 'react';
 import './Horse.css';
 import Progress from 'react-progressbar';
+import Avatar from 'material-ui/Avatar';
 
 interface Props {
   avatar_url: string;
   login: string;
-  place: number;
-  changePlace: (place: number) => void;
+  winner: (i: string) => void;
 }
 
 interface State {
   speed: number;
   progress: number;
-  count: number;
 }
 
 export class Horse extends React.Component<Props, State> {
@@ -22,22 +21,15 @@ export class Horse extends React.Component<Props, State> {
     this.state = {
       speed: Math.floor(Math.random() * 100) + 50,
       progress: 0,
-      count: 0
     };
     this.interval = this.interval.bind(this);
   }
   interval() {
     if (this.state.progress > 99) {
       this.setState({ progress: 100 });
+      this.props.winner(this.props.login);
     } else {
       this.setState(prevState => ({ progress: prevState.progress + 0.4 }));
-    }
-    if (this.state.progress > 99 && this.state.count < 1) {
-        this.setState({count: 1});
-        for ( let j = 0; j < 1; j++) {
-        alert(this.props.login + ' is the winner!');
-        break;
-        }
     }
     
   }
@@ -47,7 +39,7 @@ export class Horse extends React.Component<Props, State> {
   render() {
     return (
       <div className="jockey">
-        <img src={this.props.avatar_url} alt="avatar" />
+        <Avatar src={this.props.avatar_url} alt="avatar" size="30"/>
         {this.props.login}
         <div className="progress">
         <Progress completed={this.state.progress} />

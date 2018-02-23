@@ -1,0 +1,31 @@
+select {
+    width: 50%;
+    height: 75px;
+    display: right;
+}
+
+input {
+    width: 50%;
+    height:75px;
+    font-size: 14px;
+}
+
+option {
+    font-size: 16px;
+}
+
+.form {
+    overflow:hidden;
+}
+
+.indiv {
+    width: 50%;
+    height: 150px;
+    float: left;
+}
+
+.random {
+    width: 50%;
+    height: 150px;
+    float: right;
+}

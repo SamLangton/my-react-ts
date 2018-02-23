@@ -2,9 +2,12 @@
 import * as React from 'react';
 const data: Array<Jockey> = require('../../team.json');
 import { Jockey } from '../Utils/interface';
+import RaisedButton from 'material-ui/RaisedButton';
+import './Form.css';
 
 interface Props {
   onSubmit: (i: Jockey) => void;
+  addedplayer: Array<string>;
 }
 
 interface State {
@@ -25,11 +28,9 @@ export class Form extends React.Component<Props, State> {
 }
 
   handleSubmit() {
-    var list: string[] = [];
     for (var i of data) {
-      if (i.login === this.state.userName && !list.includes(i.login)) {
+      if (i.login === this.state.userName &&  !this.props.addedplayer.includes(i.login)) {
         this.props.onSubmit(i);
-        list.push(i.login);
       }
     }
     this.setState({ userName: '' });
@@ -37,19 +38,17 @@ export class Form extends React.Component<Props, State> {
   handleRandomSubmit() {
     var list: string[] = [];
     for (var k = 0; k < parseInt(this.state.randomNum, 10); k++) {   
-        var rand = Math.floor(Math.random() * data.length);
+        var rand = Math.floor(Math.random() * (data.length));
         var i: Jockey = data[rand];
-        for (var j = 0; j <= list.length; j++) {
-            if (list.length > 0 && i.login === list[j - 1]) {
-                k--;
-            } else {
-                this.props.onSubmit(i);
-                list.push(i.login);
-                break;
-                
-            }
+        if (this.props.addedplayer.length + list.length === data.length) {
+          alert('There are no more players');
+          break;
+        } else if (list.includes(i.login) || this.props.addedplayer.includes(i.login)) {
+            k--;
+        } else {
+            this.props.onSubmit(i);
+            list.push(i.login);
         }
-        
     }
     this.setState({ randomNum: ''}); 
 }
@@ -62,9 +61,9 @@ return items;
 }
   render() {
     return (
-      <div>
+      <div className="form">
+          <div className="indiv">
           <br/>
-          <div>
           <select
             onChange={event => this.setState({userName: event.target.value})}
             multiple={true}
@@ -72,10 +71,11 @@ return items;
             {...this.createSelectedItems()}
           </select>
           <br/>
-          <button type="submit" onClick={this.handleSubmit}> Add Player </button>
-          </div>
           <br/>
-          <div>
+          <RaisedButton type="submit" onClick={this.handleSubmit} label="Add Player" />
+          </div>
+        <br/>
+          <div className="random">
           <input 
             type="text" 
             value={this.state.randomNum} 
@@ -83,7 +83,8 @@ return items;
             placeholder="Number of random Racers"
           />
           <br/>
-          <button type="submit" onClick={this.handleRandomSubmit}> Add Players </button>
+          <br/>
+          <RaisedButton type="submit" onClick={this.handleRandomSubmit} label="Add Players"/>
           </div>
       </div>
     );
